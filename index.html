@@ -320,8 +320,7 @@ document.addEventListener('keydown', e => {
   if(e.key === 'ArrowRight') goToPage(currentPage + 1);
 });
 // Precarga las otras páginas
-__PAGES.forEach(p => { const im = new Image(); im.src = p; });.png`;
-}
+__PAGES.forEach(p => { const im = new Image(); im.src = p; });
 // ============== PROTECCIONES ==============
 // Bloquear menú contextual (click derecho)
 document.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
