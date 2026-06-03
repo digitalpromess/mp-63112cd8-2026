@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Maison Privée · Propuesta Interactiva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500&family=Italiana&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0E1A33;
+  --bg-2:#15233E;
+  --surface:#1A2842;
+  --card:#202F4C;
+  --card-hover:#283A5C;
+  --border:rgba(255,255,255,0.08);
+  --border-warm:rgba(212,169,140,0.28);
+  --rose:#D4A98C;
+  --rose-light:#E8C5AC;
+  --rose-deep:#A88068;
+  --champagne:#E8C9A0;
+  --cream:#EBE6DC;
+  --cream-soft:#D6CFC1;
+  --silver:#B5BCC9;
+  --muted:#7C8499;
+  --whatsapp:#25D366;
+  --font-display:'Cormorant Garamond',serif;
+  --font-sc:'Cormorant SC',serif;
+  --font-italiana:'Italiana',serif;
+  --font-body:'DM Sans',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html,body{
+  background:var(--bg);color:var(--cream);font-family:var(--font-body);font-weight:400;
+  font-size:16px;line-height:1.6;min-height:100vh;
+}
+body{
+  background:
+    radial-gradient(ellipse 1400px 800px at 75% 12%, rgba(212,169,140,.10) 0%, transparent 60%),
+    radial-gradient(ellipse 1000px 600px at 8% 88%, rgba(232,201,160,.07) 0%, transparent 60%),
+    var(--bg);
+  background-attachment:fixed;min-height:100vh;
+}
+em{font-style:italic;color:var(--rose)}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input{font-family:inherit;background:none;border:none;color:inherit;outline:none}
+
+/* ========== TAGS DE SCREEN ========== */
+.screen{min-height:100vh;display:none;flex-direction:column;padding:0}
+.screen.active{display:flex}
+
+/* ========== PANTALLA 1 · LOGIN ========== */
+#login{justify-content:space-between;padding:48px 6%}
+.login-top{display:flex;justify-content:space-between;align-items:flex-start}
+.brand-mark{
+  font-family:var(--font-sc);font-size:11px;letter-spacing:.42em;
+  color:var(--rose);text-transform:uppercase;display:flex;align-items:center;gap:8px;
+}
+.brand-mark::before{content:"◆";font-size:9px}
+.meta-text{
+  font-family:var(--font-sc);font-size:10px;letter-spacing:.38em;color:var(--silver);
+  text-transform:uppercase;text-align:right;line-height:2;
+}
+
+.login-center{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:32px}
+.login-eyebrow{
+  font-family:var(--font-sc);font-weight:500;font-size:12px;letter-spacing:.58em;
+  color:var(--rose);text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:22px;
+}
+.login-eyebrow::before,.login-eyebrow::after{content:"";width:54px;height:1px;background:var(--rose)}
+
+.login-title{
+  font-family:var(--font-italiana);font-weight:400;font-size:clamp(72px,11vw,140px);
+  line-height:1;letter-spacing:.07em;color:var(--cream);
+}
+.login-title em{font-family:var(--font-display);font-style:italic;color:var(--rose);font-weight:300;letter-spacing:.005em}
+
+.login-tag{
+  font-family:var(--font-sc);font-weight:500;font-size:13px;letter-spacing:.6em;
+  color:var(--champagne);text-transform:uppercase;
+}
+
+.login-quote{
+  font-family:var(--font-display);font-style:italic;font-weight:300;font-size:22px;
+  line-height:1.6;color:var(--cream-soft);max-width:520px;margin-top:8px;
+}
+
+.login-form{display:flex;align-items:stretch;border:1px solid var(--rose);width:fit-content;margin-top:16px}
+.login-form input{
+  width:340px;height:62px;
+  font-family:var(--font-sc);font-size:14px;letter-spacing:.45em;text-align:center;
+  color:var(--cream);font-weight:400;padding:0 22px;text-transform:uppercase;
+}
+.login-form input:focus{background:rgba(212,169,140,.05)}
+.login-form input::placeholder{color:var(--muted);letter-spacing:.45em}
+.login-form button{
+  height:62px;padding:0 36px;background:var(--rose);color:var(--bg);
+  font-family:var(--font-sc);font-size:13px;letter-spacing:.42em;text-transform:uppercase;
+  font-weight:500;transition:all .3s;
+}
+.login-form button:hover{background:var(--rose-light);letter-spacing:.5em}
+
+.login-bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+.login-note{
+  font-family:var(--font-sc);font-size:10px;letter-spacing:.42em;
+  color:var(--muted);text-transform:uppercase;text-align:left;line-height:2;
+}
+.login-foot{
+  font-family:var(--font-body);font-size:11px;color:var(--silver);text-align:right;line-height:1.8;
+}
+.login-foot strong{color:var(--cream);font-weight:500}
+
+/* ========== PANTALLA 2 · SELECCIÓN ========== */
+#select{padding:60px 6% 80px}
+.sel-header{text-align:center;margin-bottom:60px}
+.sel-eyebrow{
+  font-family:var(--font-sc);font-weight:500;font-size:12px;letter-spacing:.55em;
+  color:var(--rose);text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:18px;margin-bottom:24px;
+}
+.sel-eyebrow::before,.sel-eyebrow::after{content:"";width:48px;height:1px;background:var(--rose)}
+.sel-title{
+  font-family:var(--font-display);font-weight:300;font-size:clamp(36px,5.5vw,62px);
+  line-height:1.1;letter-spacing:.025em;color:var(--cream);margin-bottom:18px;
+}
+.sel-title em{font-style:italic;color:var(--rose);font-weight:300}
+.sel-lead{
+  font-family:var(--font-display);font-style:italic;font-weight:300;font-size:20px;
+  line-height:1.55;color:var(--cream-soft);max-width:620px;margin:0 auto;
+}
+
+.sel-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+  max-width:1200px;margin:0 auto;flex:1;
+}
+
+.opt-card{
+  background:linear-gradient(180deg,var(--surface) 0%,var(--card) 100%);
+  border:1px solid var(--border-warm);padding:44px 36px 38px;
+  display:flex;flex-direction:column;text-align:center;position:relative;
+  cursor:pointer;transition:all .35s;
+}
+.opt-card:hover{
+  transform:translateY(-4px);
+  background:linear-gradient(180deg,var(--card-hover) 0%,var(--card) 100%);
+  box-shadow:0 18px 48px rgba(212,169,140,.12);
+}
+.opt-card.featured{
+  border-color:var(--rose);
+  background:
+    radial-gradient(ellipse 600px 300px at 50% 0%, rgba(212,169,140,.18) 0%, transparent 60%),
+    linear-gradient(180deg,var(--surface) 0%,var(--card) 100%);
+}
+.opt-card.featured::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--rose),transparent);
+}
+
+.opt-tag{
+  font-family:var(--font-sc);font-weight:500;font-size:11px;letter-spacing:.48em;
+  color:var(--rose);text-transform:uppercase;margin-bottom:18px;
+  display:inline-flex;align-items:center;gap:14px;align-self:center;
+}
+.opt-tag::before,.opt-tag::after{content:"";width:30px;height:1px;background:var(--rose)}
+
+.opt-name{
+  font-family:var(--font-display);font-weight:300;font-size:54px;color:var(--cream);
+  line-height:1;letter-spacing:.025em;margin-bottom:14px;
+}
+.opt-name em{font-style:italic;color:var(--rose);font-weight:300}
+
+.opt-sub{
+  font-family:var(--font-display);font-style:italic;font-weight:300;font-size:17px;
+  line-height:1.5;color:var(--cream-soft);max-width:320px;margin:0 auto 28px;
+}
+
+.opt-price-block{
+  padding:18px 0;
+  border-top:1px solid var(--border-warm);border-bottom:1px solid var(--border-warm);
+  margin-bottom:24px;
+}
+.opt-price-main{
+  font-family:var(--font-display);font-weight:300;color:var(--cream);line-height:1;
+  display:inline-flex;align-items:baseline;gap:6px;justify-content:center;margin-bottom:4px;
+}
+.opt-price-main .cur{font-size:14px;color:var(--rose);font-style:italic;letter-spacing:.06em}
+.opt-price-main .num{font-size:42px;letter-spacing:.01em}
+.opt-price-alt{
+  font-family:var(--font-sc);font-size:11px;letter-spacing:.4em;color:var(--silver);text-transform:uppercase;
+}
+.opt-price-alt strong{color:var(--rose);font-weight:500}
+
+.opt-features{
+  list-style:none;flex:1;text-align:left;margin-bottom:28px;
+}
+.opt-features li{
+  padding:6px 0 6px 18px;position:relative;font-family:var(--font-body);
+  font-size:13px;line-height:1.55;color:var(--cream-soft);
+}
+.opt-features li::before{content:"◆";position:absolute;left:0;top:7px;color:var(--rose);font-size:7px}
+
+.opt-cta{
+  padding:16px 28px;background:var(--rose);color:var(--bg);
+  font-family:var(--font-sc);font-size:12px;letter-spacing:.42em;text-transform:uppercase;
+  font-weight:500;transition:all .3s;
+}
+.opt-cta:hover{background:var(--rose-light);letter-spacing:.5em}
+.opt-card:not(.featured) .opt-cta{
+  background:transparent;color:var(--cream);border:1px solid var(--cream);
+}
+.opt-card:not(.featured) .opt-cta:hover{background:var(--cream);color:var(--bg)}
+
+/* ========== TOP BAR · NAVEGACIÓN PREVIEWS ========== */
+.preview-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 6%;border-bottom:1px solid var(--border-warm);
+  background:rgba(14,26,51,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  position:sticky;top:0;z-index:100;
+}
+.pb-left{display:flex;align-items:center;gap:24px}
+.pb-back{
+  font-family:var(--font-sc);font-size:11px;letter-spacing:.42em;color:var(--rose);
+  text-transform:uppercase;font-weight:500;display:inline-flex;align-items:center;gap:8px;
+}
+.pb-back:hover{color:var(--rose-light)}
+.pb-brand{
+  font-family:var(--font-italiana);font-size:22px;letter-spacing:.1em;
+  color:var(--cream);font-weight:400;
+}
+.pb-brand em{font-family:var(--font-display);font-style:italic;color:var(--rose);font-weight:300}
+.pb-mode{
+  font-family:var(--font-sc);font-size:10px;letter-spacing:.45em;color:var(--silver);
+  text-transform:uppercase;display:inline-flex;align-items:center;gap:8px;
+}
+.pb-mode::before{content:"●";color:var(--rose);font-size:7px}
+
+/* ========== PANTALLA 3 · PREVIEW VITRINE ========== */
+.vit-hero{padding:60px 6% 40px;text-align:center}
+.vit-eyebrow{
+  font-family:var(--font-sc);font-size:11px;letter-spacing:.55em;color:var(--rose);
+  text-transform:uppercase;display:inline-flex;align-items:center;gap:18px;margin-bottom:20px;
+}
+.vit-eyebrow::before,.vit-eyebrow::after{content:"";width:46px;height:1px;background:var(--rose)}
+.vit-title{
+  font-family:var(--font-italiana);font-weight:400;font-size:clamp(48px,7vw,84px);
+  line-height:1;letter-spacing:.06em;color:var(--cream);margin-bottom:14px;
+}
+.vit-title em{font-family:var(--font-display);font-style:italic;color:var(--rose);font-weight:300}
+.vit-sub{
+  font-family:var(--font-sc);font-size:12px;letter-spacing:.55em;color:var(--champagne);
+  text-transform:uppercase;
+}
+.vit-quote{
+  font-family:var(--font-display);font-style:italic;font-weight:300;font-size:18px;
+  color:var(--cream-soft);max-width:540px;margin:24px auto 0;line-height:1.5;
+}
+
+.vit-section-tag{
+  font-family:var(--font-sc);font-weight:500;font-size:11px;letter-spacing:.48em;
+  color:var(--rose);text-transform:uppercase;text-align:center;margin:60px 0 40px;
+  display:flex;align-items:center;justify-content:center;gap:18px;
+}
+.vit-section-tag::before,.vit-section-tag::after{content:"";width:60px;height:1px;background:var(--rose)}
+
+.vit-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  padding:0 6% 60px;max-width:1280px;margin:0 auto;
+}
+
+.profile-card{
+  background:var(--surface);border:1px solid var(--border-warm);
+  overflow:hidden;display:flex;flex-direction:column;transition:all .3s;
+}
+.profile-card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.3)}
+.profile-photo{
+  width:100%;aspect-ratio:4/5;position:relative;overflow:hidden;
+}
+.profile-photo::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 55%,rgba(14,26,51,.92) 100%);
+}
+.profile-info{padding:22px 22px 24px;position:relative}
+.profile-name-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.profile-name{
+  font-family:var(--font-display);font-weight:300;font-size:26px;color:var(--cream);
+  line-height:1;letter-spacing:.02em;
+}
+.profile-name em{font-style:italic;color:var(--rose);font-weight:300}
+.profile-age{
+  font-family:var(--font-display);font-style:italic;font-size:18px;color:var(--rose-deep);
+}
+.profile-loc{
+  font-family:var(--font-sc);font-size:10px;letter-spacing:.36em;color:var(--silver);
+  text-transform:uppercase;margin-bottom:14px;
+}
+.profile-bio{
+  font-family:var(--font-display);font-style:italic;font-weight:300;font-size:14px;
+  color:var(--cream-soft);line-height:1.55;margin-bottom:18px;
+}
+.profile-wa{
+  width:100%;padding:13px;background:var(--whatsapp);color:#fff;
+  font-family:var(--font-body);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:500;display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .25s;
+}
+.profile-wa:hover{background:#1ebe5d}
+.profile-wa svg{width:16px;height:16px}
+
+/* ========== PANTALLA 4 · PREVIEW MAISON COMPLÈTE ========== */
+.mc-dashboard{padding:40px 6% 80px;max-width:1280px;margin:0 auto}
+
+.mc-greeting{
+  display:grid;grid-template-columns:1fr 320px;gap:32px;margin-bottom:50px;align-items:center;
+}
+.mc-greeting-text{}
+.mc-greet-eyebrow{
+  font-family:var(--font-sc);font-size:11px;letter-spacing:.5em;color:var(--rose);
+  text-transform:uppercase;margin-bottom:12px;
+}
+.mc-greet-title{
+  font-family:var(--font-display);font-weight:300;font-size:46px;line-height:1.1;
+  letter-spacing:.025em;color:var(--cream);margin-bottom:10px;
+}
+.mc-greet-title em{font-style:italic;color:var(--rose);font-weight:300}
+.mc-greet-sub{
+  font-family:var(--font-display);font-style:italic;font-weight:300;font-size:17px;
+  color:var(--cream-soft);line-height:1.5;
+}
+
+.mc-member-card{
+  background:linear-gradient(160deg,var(--rose) 0%,var(--rose-deep) 100%);
+  padding:22px 26px;color:var(--bg);position:relative;overflow:hidden;
+  border:1px solid var(--rose);
+}
+.mc-member-card::before{
+  content:"";position:absolute;top:-30px;right:-30px;width:120px;height:120px;
+  border:1px solid rgba(14,26,51,.2);border-radius:50%;
+}
+.mc-member-tag{
+  font-family:var(--font-sc);font-size:9px;letter-spacing:.48em;text-transform:uppercase;
+  font-weight:500;margin-bottom:8px;opacity:.7;
+}
+.mc-member-level{
+  font-family:var(--font-display);font-weight:400;font-size:30px;line-height:1;
+  letter-spacing:.05em;margin-bottom:14px;
+}
+.mc-member-credits{
+  font-family:var(--font-sc);font-size:10px;letter-spacing:.4em;text-transform:uppercase;
+  font-weight:500;opacity:.85;
+}
+.mc-member-credits strong{font-size:18px;font-family:var(--font-display);font-weight:400;letter-spacing:.02em;display:block;margin-top:2px}
+
+/* Nav tabs */
+.mc-nav{
+  display:flex;gap:6px;border-bottom:1px solid var(--border-warm);margin-bottom:40px;
+  padding-bottom:0;
+}
+.mc-tab{
+  padding:14px 22px;background:none;border:none;
+  font-family:var(--font-sc);font-size:11px;letter-spacing:.42em;color:var(--silver);
+  text-transform:uppercase;font-weight:500;position:relative;cursor:pointer;transition:color .2s;
+}
+.mc-tab.active{color:var(--rose)}
+.mc-tab.active::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--rose);
+}
+.mc-tab:hover:not(.active){color:var(--cream)}
+
+/* Grid principal */
+.mc-main{display:grid;grid-template-columns:1fr 280px;gap:32px}
+
+.mc-feed-title{
+  font-family:var(--font-display);font-weight:300;font-size:28px;
+  letter-spacing:.025em;color:var(--cream);margin-bottom:24px;
+}
+.mc-feed-title em{font-style:italic;color:var(--rose);font-weight:300}
+
+.mc-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+.profile-card-mc{
+  background:var(--surface);border:1px solid var(--border-warm);
+  overflow:hidden;display:flex;flex-direction:column;transition:all .3s;
+}
+.profile-card-mc:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.3)}
+.profile-photo-mc{
+  width:100%;aspect-ratio:5/4;position:relative;overflow:hidden;
+}
+.profile-photo-mc::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 55%,rgba(14,26,51,.92) 100%);
+}
+.profile-badge{
+  position:absolute;top:14px;left:14px;
+  font-family:var(--font-sc);font-size:8px;letter-spacing:.4em;
+  color:var(--rose);text-transform:uppercase;font-weight:500;
+  padding:5px 10px;border:1px solid var(--rose);
+  background:rgba(14,26,51,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  z-index:2;
+}
+.profile-badge.elite{color:var(--bg);background:var(--rose);border-color:var(--rose)}
+.profile-verified{
+  position:absolute;top:14px;right:14px;
+  width:28px;height:28px;border-radius:50%;background:rgba(14,26,51,.7);
+  display:flex;align-items:center;justify-content:center;color:var(--rose);
+  border:1px solid var(--rose);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  font-size:14px;z-index:2;
+}
+.profile-info-mc{padding:18px 20px 20px}
+.profile-name-mc{
+  font-family:var(--font-display);font-weight:300;font-size:24px;color:var(--cream);
+  line-height:1;letter-spacing:.02em;margin-bottom:4px;
+}
+.profile-name-mc em{font-style:italic;color:var(--rose);font-weight:300}
+.profile-meta-mc{
+  font-family:var(--font-sc);font-size:9px;letter-spacing:.36em;color:var(--silver);
+  text-transform:uppercase;margin-bottom:14px;
+}
+.profile-actions{display:flex;gap:8px}
+.profile-action{
+  flex:1;padding:11px;background:transparent;color:var(--rose);
+  border:1px solid var(--rose);
+  font-family:var(--font-sc);font-size:10px;letter-spacing:.36em;
+  text-transform:uppercase;font-weight:500;transition:all .25s;
+}
+.profile-action:hover{background:var(--rose);color:var(--bg)}
+.profile-action.heart{flex:0 0 42px;font-size:14px}
+
+/* Sidebar */
+.mc-sidebar{display:flex;flex-direction:column;gap:20px}
+.mc-sb-card{
+  background:var(--surface);border:1px solid var(--border-warm);padding:20px 18px;
+}
+.mc-sb-title{
+  font-family:var(--font-sc);font-size:9px;letter-spacing:.45em;color:var(--rose);
+  text-transform:uppercase;font-weight:500;margin-bottom:14px;
+}
+.mc-msg{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.mc-msg:last-child{border-bottom:none}
+.mc-msg-avatar{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+}
+.mc-msg-text{font-family:var(--font-body);font-size:12px;color:var(--cream-soft);line-height:1.4}
+.mc-msg-text strong{color:var(--cream);font-weight:500;display:block;margin-bottom:2px}
+.mc-msg-time{font-family:var(--font-sc);font-size:8px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;margin-top:2px}
+
+.mc-event{padding:10px 0;border-bottom:1px solid var(--border)}
+.mc-event:last-child{border-bottom:none}
+.mc-event-date{
+  font-family:var(--font-sc);font-size:9px;letter-spacing:.4em;color:var(--rose);
+  text-transform:uppercase;font-weight:500;margin-bottom:4px;
+}
+.mc-event-name{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:15px;color:var(--cream);line-height:1.3;margin-bottom:3px}
+.mc-event-loc{font-family:var(--font-body);font-size:11px;color:var(--silver)}
+
+/* ========== RESPONSIVE ========== */
+@media(max-width:900px){
+  .sel-grid{grid-template-columns:1fr}
+  .vit-grid{grid-template-columns:1fr 1fr}
+  .mc-main{grid-template-columns:1fr}
+  .mc-greeting{grid-template-columns:1fr}
+  .mc-grid{grid-template-columns:1fr}
+  .login-form input{width:240px}
+}
+@media(max-width:600px){
+  .vit-grid{grid-template-columns:1fr}
+}
+
+/* Animaciones de transición */
+.fade-in{animation:fadeIn .5s ease-out}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- ============ PANTALLA 1 · LOGIN ============ -->
+<!-- ============================================ -->
+<section id="login" class="screen active">
+  <div class="login-top">
+    <div class="brand-mark">Digital Promess</div>
+    <div class="meta-text">
+      Propuesta interactiva<br>
+      Junio · 2026<br>
+      Confidencial
+    </div>
+  </div>
+
+  <div class="login-center">
+    <div class="login-eyebrow">Por Invitación</div>
+    <h1 class="login-title">MAIS<em>O</em>N PRIVÉE</h1>
+    <div class="login-tag">— Private Members Club —</div>
+    <p class="login-quote">
+      Un círculo cerrado para quienes comprenden el valor del tiempo, la discreción y las conexiones auténticas.
+    </p>
+
+    <form class="login-form" onsubmit="handleLogin(event)">
+      <input type="text" placeholder="XXXX · XXXX · XXXX" maxlength="14" id="codeInput">
+      <button type="submit">Acceder</button>
+    </form>
+  </div>
+
+  <div class="login-bottom">
+    <div class="login-note">
+      Vista previa interactiva<br>
+      Cualquier código funciona
+    </div>
+    <div class="login-foot">
+      <strong>Propuesta de software</strong><br>
+      Digital Promess · Medellín
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================ -->
+<!-- ============ PANTALLA 2 · SELECCIÓN ============ -->
+<!-- ================================================ -->
+<section id="select" class="screen">
+  <div class="sel-header fade-in">
+    <div class="sel-eyebrow">Bienvenido al club</div>
+    <h2 class="sel-title">¿Cómo te gustaría <em>empezar</em>?</h2>
+    <p class="sel-lead">
+      Te proponemos dos formas de abrir Maison Privée. Haz clic en cualquiera para ver cómo se vería tu club en cada opción.
+    </p>
+  </div>
+
+  <div class="sel-grid">
+
+    <!-- OPCIÓN 1 · VITRINE -->
+    <div class="opt-card fade-in" onclick="showScreen('vitrine')">
+      <div class="opt-tag">Opción 1</div>
+      <div class="opt-name">Vitrine</div>
+      <div class="opt-sub">Una página elegante tipo escaparate, con perfiles y contacto directo por WhatsApp</div>
+
+      <div class="opt-price-block">
+        <div class="opt-price-main"><span class="cur">USD</span><span class="num">5.000</span></div>
+        <div class="opt-price-alt">Pago Único</div>
+      </div>
+
+      <ul class="opt-features">
+        <li>Landing editorial tipo catálogo</li>
+        <li>Galería de perfiles que tú configuras</li>
+        <li>Login básico para miembros</li>
+        <li>Botón directo a WhatsApp en cada perfil</li>
+        <li>Diseño responsive</li>
+        <li>6 semanas de desarrollo</li>
+      </ul>
+
+      <button class="opt-cta">Ver vista previa →</button>
+    </div>
+
+    <!-- OPCIÓN 2 · MAISON COMPLÈTE -->
+    <div class="opt-card featured fade-in" onclick="showScreen('complete')">
+      <div class="opt-tag">Opción 2 · Recomendada</div>
+      <div class="opt-name">Maison <em>Complète</em></div>
+      <div class="opt-sub">El club privado completo, con invitaciones, niveles de membresía y panel administrativo</div>
+
+      <div class="opt-price-block">
+        <div class="opt-price-main"><span class="cur">USD</span><span class="num">3.250</span><span style="font-size:18px;color:var(--silver);font-style:italic;margin-left:6px">/ mes</span></div>
+        <div class="opt-price-alt">4 cuotas mensuales · o <strong>USD 13.000</strong> de una vez</div>
+      </div>
+
+      <ul class="opt-features">
+        <li>Todo lo de Vitrine</li>
+        <li>Invitaciones con códigos temporales</li>
+        <li>3 niveles de membresía (Básica, VIP, Elite)</li>
+        <li>Verificación con selfie y documento</li>
+        <li>Mensajería cifrada y sistema de favoritos</li>
+        <li>Panel admin con KPIs · 16 semanas</li>
+      </ul>
+
+      <button class="opt-cta">Ver vista previa →</button>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ================================================ -->
+<!-- ============ PANTALLA 3 · VITRINE ============ -->
+<!-- ================================================ -->
+<section id="vitrine" class="screen">
+  <div class="preview-bar">
+    <div class="pb-left">
+      <button class="pb-back" onclick="showScreen('select')">← Volver</button>
+      <div class="pb-brand">MAIS<em>O</em>N PRIVÉE</div>
+    </div>
+    <div class="pb-mode">Vista previa · Opción Vitrine</div>
+  </div>
+
+  <div class="vit-hero fade-in">
+    <div class="vit-eyebrow">Por Invitación</div>
+    <h2 class="vit-title">MAIS<em>O</em>N PRIVÉE</h2>
+    <div class="vit-sub">— Private Members Club —</div>
+    <p class="vit-quote">
+      Una selección curada de personas extraordinarias. Conecta por WhatsApp directamente con quien te interese.
+    </p>
+  </div>
+
+  <div class="vit-section-tag">— Perfiles disponibles —</div>
+
+  <div class="vit-grid" id="vitrineGrid"></div>
+</section>
+
+
+<!-- ===================================================== -->
+<!-- ============ PANTALLA 4 · MAISON COMPLÈTE ============ -->
+<!-- ===================================================== -->
+<section id="complete" class="screen">
+  <div class="preview-bar">
+    <div class="pb-left">
+      <button class="pb-back" onclick="showScreen('select')">← Volver</button>
+      <div class="pb-brand">MAIS<em>O</em>N PRIVÉE</div>
+    </div>
+    <div class="pb-mode">Vista previa · Opción Maison Complète</div>
+  </div>
+
+  <div class="mc-dashboard fade-in">
+
+    <!-- Greeting + Member card -->
+    <div class="mc-greeting">
+      <div class="mc-greeting-text">
+        <div class="mc-greet-eyebrow">— Bienvenida, Sofía —</div>
+        <h2 class="mc-greet-title">Hoy hay <em>14 perfiles nuevos</em><br>en el club.</h2>
+        <p class="mc-greet-sub">Tu membresía Elite está activa hasta diciembre de 2026.</p>
+      </div>
+      <div class="mc-member-card">
+        <div class="mc-member-tag">— Tu Membresía —</div>
+        <div class="mc-member-level">ELITE</div>
+        <div class="mc-member-credits">Créditos disponibles<strong>248</strong></div>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <div class="mc-nav">
+      <button class="mc-tab active">Explorar</button>
+      <button class="mc-tab">Mis Favoritos</button>
+      <button class="mc-tab">Mensajes (3)</button>
+      <button class="mc-tab">Eventos</button>
+      <button class="mc-tab">Mi Perfil</button>
+    </div>
+
+    <!-- Main grid -->
+    <div class="mc-main">
+      <div>
+        <h3 class="mc-feed-title">Perfiles <em>destacados</em></h3>
+        <div class="mc-grid" id="completeGrid"></div>
+      </div>
+
+      <aside class="mc-sidebar">
+
+        <div class="mc-sb-card">
+          <div class="mc-sb-title">— Mensajes recientes —</div>
+          <div class="mc-msg">
+            <div class="mc-msg-avatar" style="background:linear-gradient(135deg,#D4A98C,#A88068)"></div>
+            <div>
+              <div class="mc-msg-text"><strong>Isabella</strong>¿Vas al evento de Galería Botero?</div>
+              <div class="mc-msg-time">Hace 12 min</div>
+            </div>
+          </div>
+          <div class="mc-msg">
+            <div class="mc-msg-avatar" style="background:linear-gradient(135deg,#7C8499,#3B4F6E)"></div>
+            <div>
+              <div class="mc-msg-text"><strong>Camila</strong>Encantada de conocerte ✦</div>
+              <div class="mc-msg-time">Hace 2 horas</div>
+            </div>
+          </div>
+          <div class="mc-msg">
+            <div class="mc-msg-avatar" style="background:linear-gradient(135deg,#E8C9A0,#A88068)"></div>
+            <div>
+              <div class="mc-msg-text"><strong>Valentina</strong>Gracias por la recomendación</div>
+              <div class="mc-msg-time">Ayer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mc-sb-card">
+          <div class="mc-sb-title">— Próximos eventos privados —</div>
+          <div class="mc-event">
+            <div class="mc-event-date">15 de Junio · 8 PM</div>
+            <div class="mc-event-name">Cata de vinos exclusiva</div>
+            <div class="mc-event-loc">Hacienda Nápoles · El Poblado</div>
+          </div>
+          <div class="mc-event">
+            <div class="mc-event-date">22 de Junio · 9 PM</div>
+            <div class="mc-event-name">Cena en chef's table</div>
+            <div class="mc-event-loc">Carmen · Las Palmas</div>
+          </div>
+          <div class="mc-event">
+            <div class="mc-event-date">3 de Julio · 7 PM</div>
+            <div class="mc-event-name">Apertura Galería Botero</div>
+            <div class="mc-event-loc">Museo de Antioquia</div>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+</section>
+
+
+<script>
+// ========== Navegación entre pantallas ==========
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+function handleLogin(e){
+  e.preventDefault();
+  showScreen('select');
+}
+
+// ========== Generación de perfiles mock ==========
+const profilesData = [
+  {name:'Isabella', age:32, city:'Medellín · Bogotá', langs:'ES · EN · IT', level:'ELITE', verified:true,
+   bio:'Arquitecta, viajera, conversaciones largas, vinos buenos.', gradient:'linear-gradient(135deg,#8B6B5A 0%,#5C3E2E 50%,#2E1F18 100%)'},
+  {name:'Camila', age:29, city:'Medellín', langs:'ES · EN · FR', level:'VIP', verified:true,
+   bio:'Diseñadora gráfica, fotógrafa amateur, amante del arte contemporáneo.', gradient:'linear-gradient(135deg,#6B7589 0%,#3B4F6E 50%,#1F2A3D 100%)'},
+  {name:'Sofía', age:34, city:'Bogotá', langs:'ES · EN', level:'ELITE', verified:true,
+   bio:'Médica especialista, melómana, lectora voraz de no-ficción.', gradient:'linear-gradient(135deg,#9C7B6A 0%,#6E5240 50%,#3D2A1F 100%)'},
+  {name:'Valentina', age:27, city:'Cartagena · Medellín', langs:'ES · EN · PT', level:'VIP', verified:true,
+   bio:'Emprendedora, surfista de fines de semana, café de origen.', gradient:'linear-gradient(135deg,#C9A98C 0%,#8A6E58 50%,#4C3A2A 100%)'},
+  {name:'Mariana', age:31, city:'Medellín', langs:'ES · EN', level:'BÁSICA', verified:true,
+   bio:'Abogada corporativa, yogui, cocina de autor y conversaciones honestas.', gradient:'linear-gradient(135deg,#7E8A98 0%,#475669 50%,#202C3D 100%)'},
+  {name:'Lucía', age:35, city:'Cali · Bogotá', langs:'ES · EN · FR', level:'ELITE', verified:true,
+   bio:'Galerista independiente, escritora de cuentos, runner empedernida.', gradient:'linear-gradient(135deg,#A88068 0%,#6B4E3C 50%,#3D2A1F 100%)'}
+];
+
+function makeProfileSvg(gradient, initial){
+  // En vez de SVG, usamos un div con gradient + letra
+  return `<div style="width:100%;height:100%;background:${gradient};display:flex;align-items:center;justify-content:center;">
+    <span style="font-family:'Italiana',serif;font-size:96px;color:rgba(235,230,220,.18);letter-spacing:.05em">${initial}</span>
+  </div>`;
+}
+
+// Render Vitrine grid
+const vGrid = document.getElementById('vitrineGrid');
+profilesData.forEach(p=>{
+  const card = document.createElement('div');
+  card.className = 'profile-card';
+  card.innerHTML = `
+    <div class="profile-photo">${makeProfileSvg(p.gradient, p.name[0])}</div>
+    <div class="profile-info">
+      <div class="profile-name-row">
+        <div class="profile-name">${p.name}</div>
+        <div class="profile-age">${p.age}</div>
+      </div>
+      <div class="profile-loc">${p.city} · ${p.langs}</div>
+      <p class="profile-bio">"${p.bio}"</p>
+      <button class="profile-wa" onclick="alert('Esto abriría WhatsApp para contactar a ${p.name}')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Contactar por WhatsApp
+      </button>
+    </div>
+  `;
+  vGrid.appendChild(card);
+});
+
+// Render Maison Complète grid
+const cGrid = document.getElementById('completeGrid');
+profilesData.slice(0,4).forEach(p=>{
+  const card = document.createElement('div');
+  card.className = 'profile-card-mc';
+  card.innerHTML = `
+    <div class="profile-photo-mc">
+      ${makeProfileSvg(p.gradient, p.name[0])}
+      <div class="profile-badge ${p.level==='ELITE'?'elite':''}">${p.level}</div>
+      ${p.verified?'<div class="profile-verified">✓</div>':''}
+    </div>
+    <div class="profile-info-mc">
+      <div class="profile-name-mc">${p.name}<em> · ${p.age}</em></div>
+      <div class="profile-meta-mc">${p.city} · ${p.langs}</div>
+      <div class="profile-actions">
+        <button class="profile-action">Mensaje</button>
+        <button class="profile-action heart">♡</button>
+      </div>
+    </div>
+  `;
+  cGrid.appendChild(card);
+});
+</script>
+
+</body>
+</html>
