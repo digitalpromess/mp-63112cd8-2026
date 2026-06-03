@@ -298,7 +298,10 @@ function openView(id){
   if(id==='pdfView'){ goToPage(1); }
   if(id==='appView'){
     const f = document.getElementById('appFrame');
-    if(!f.srcdoc){ f.srcdoc = atob(__APP_B64); }
+    if(!f.srcdoc){
+      const bytes = Uint8Array.from(atob(__APP_B64), c => c.charCodeAt(0));
+      f.srcdoc = new TextDecoder('utf-8').decode(bytes);
+    }
   }
 }
 // ============== PDF GALLERY NAV ==============
