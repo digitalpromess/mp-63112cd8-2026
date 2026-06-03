@@ -155,11 +155,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 .vb-label::before{content:"●";color:var(--rose);font-size:7px}
 
-.viewer-content{flex:1;width:100%;min-height:calc(100vh - 60px);position:relative;background:var(--bg)}
+#pdfView, #appView{height:100vh;overflow:hidden}
+#pdfView.active, #appView.active{display:flex}
+.viewer-content{flex:1;width:100%;position:relative;background:#1a1a1a;overflow:hidden;min-height:0}
 .viewer-content embed,
 .viewer-content object,
 .viewer-content iframe{
-  width:100%;height:calc(100vh - 60px);border:none;display:block;background:#1a1a1a;
+  width:100%;height:100%;border:none;display:block;background:#1a1a1a;
 }
 
 /* Overlay anti-screenshot/print en print media */
@@ -244,7 +246,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <div class="vb-label">Documento</div>
   </div>
   <div class="viewer-content">
-    <iframe id="pdfFrame" src="doc.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH" title="Propuesta"></iframe>
+    <embed id="pdfFrame" src="doc.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH" type="application/pdf">
   </div>
 </section>
 
