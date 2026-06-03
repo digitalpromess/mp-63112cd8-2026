@@ -157,11 +157,51 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 #pdfView, #appView{height:100vh;overflow:hidden}
 #pdfView.active, #appView.active{display:flex}
-.viewer-content{flex:1;width:100%;position:relative;background:#1a1a1a;overflow:hidden;min-height:0}
-.viewer-content embed,
-.viewer-content object,
+.viewer-content{flex:1;width:100%;position:relative;background:var(--bg);overflow:hidden;min-height:0}
 .viewer-content iframe{
-  width:100%;height:100%;border:none;display:block;background:#1a1a1a;
+  width:100%;height:100%;border:none;display:block;background:var(--bg);
+}
+
+/* ========== PDF VIEWER · IMG GALLERY ========== */
+.pdf-stage{
+  flex:1;width:100%;position:relative;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  padding:20px 60px;
+}
+.pdf-stage img{
+  max-width:100%;max-height:calc(100vh - 100px);
+  box-shadow:0 24px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(212,169,140,.15);
+  user-select:none;-webkit-user-drag:none;pointer-events:none;
+  background:#0E1A33;
+}
+.pdf-nav{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:10;
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(212,169,140,.12);border:1px solid var(--border-warm);
+  color:var(--rose);font-family:var(--font-display);font-size:22px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .25s;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.pdf-nav:hover{background:var(--rose);color:var(--bg);transform:translateY(-50%) scale(1.05)}
+.pdf-nav.prev{left:18px}
+.pdf-nav.next{right:18px}
+.pdf-nav:disabled{opacity:.3;cursor:not-allowed}
+.pdf-indicator{
+  position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:10;
+  font-family:var(--font-sc);font-size:11px;letter-spacing:.45em;color:var(--rose);
+  text-transform:uppercase;background:rgba(14,26,51,.85);
+  padding:8px 18px;border:1px solid var(--border-warm);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  display:flex;align-items:center;gap:14px;
+}
+.pdf-indicator strong{color:var(--cream);font-family:var(--font-display);font-weight:300;font-size:14px;letter-spacing:.05em}
+.pdf-indicator .sep{color:var(--rose);opacity:.5}
+
+@media(max-width:768px){
+  .pdf-stage{padding:14px 14px 70px}
+  .pdf-nav{width:40px;height:40px;font-size:18px}
+  .pdf-nav.prev{left:8px}
+  .pdf-nav.next{right:8px}
 }
 
 /* Overlay anti-screenshot/print en print media */
@@ -245,8 +285,16 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <div class="vb-brand">MAIS<em>O</em>N PRIVÉE</div>
     <div class="vb-label">Documento</div>
   </div>
-  <div class="viewer-content">
-    <embed id="pdfFrame" src="doc.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH" type="application/pdf">
+  <div class="pdf-stage">
+    <button class="pdf-nav prev" id="prevPage" aria-label="Anterior">‹</button>
+    <img id="pdfImg" src="page-1.png" alt="Página de la propuesta" draggable="false">
+    <button class="pdf-nav next" id="nextPage" aria-label="Siguiente">›</button>
+    <div class="pdf-indicator">
+      <span>Página</span>
+      <strong id="curPage">1</strong>
+      <span class="sep">/</span>
+      <strong>5</strong>
+    </div>
   </div>
 </section>
 
@@ -270,6 +318,38 @@ function openView(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo({top:0,behavior:'instant'});
+  if(id==='pdfView'){ goToPage(1); }
+}
+
+// ============== PDF GALLERY NAV ==============
+const TOTAL_PAGES = 5;
+let currentPage = 1;
+const pdfImg = document.getElementById('pdfImg');
+const curPageEl = document.getElementById('curPage');
+const prevBtn = document.getElementById('prevPage');
+const nextBtn = document.getElementById('nextPage');
+
+function goToPage(n){
+  currentPage = Math.max(1, Math.min(TOTAL_PAGES, n));
+  pdfImg.src = `page-${currentPage}.png`;
+  curPageEl.textContent = currentPage;
+  prevBtn.disabled = currentPage === 1;
+  nextBtn.disabled = currentPage === TOTAL_PAGES;
+}
+prevBtn.addEventListener('click', () => goToPage(currentPage - 1));
+nextBtn.addEventListener('click', () => goToPage(currentPage + 1));
+
+// Keyboard arrows
+document.addEventListener('keydown', e => {
+  if(!document.getElementById('pdfView').classList.contains('active')) return;
+  if(e.key === 'ArrowLeft') goToPage(currentPage - 1);
+  if(e.key === 'ArrowRight') goToPage(currentPage + 1);
+});
+
+// Precarga las otras páginas
+for(let i = 2; i <= TOTAL_PAGES; i++){
+  const img = new Image();
+  img.src = `page-${i}.png`;
 }
 
 // ============== PROTECCIONES ==============
