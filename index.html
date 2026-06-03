@@ -159,7 +159,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .viewer-content embed,
 .viewer-content object,
 .viewer-content iframe{
-  width:100%;height:calc(100vh - 60px);border:none;display:block;
+  width:100%;height:calc(100vh - 60px);border:none;display:block;background:#1a1a1a;
 }
 
 /* Overlay anti-screenshot/print en print media */
@@ -244,7 +244,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <div class="vb-label">Documento</div>
   </div>
   <div class="viewer-content">
-    <object id="pdfFrame" data="" type="application/pdf"></object>
+    <iframe id="pdfFrame" src="doc.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH" title="Propuesta"></iframe>
   </div>
 </section>
 
@@ -257,7 +257,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <div class="vb-label">Vista Interactiva</div>
   </div>
   <div class="viewer-content">
-    <iframe id="appFrame" src="" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+    <iframe id="appFrame" src="app.html" title="Vista interactiva"></iframe>
   </div>
 </section>
 
@@ -268,22 +268,6 @@ function openView(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo({top:0,behavior:'instant'});
-
-  // Cargar contenido solo cuando se abre (evita exponer URL en source)
-  if(id==='pdfView'){
-    const o = document.getElementById('pdfFrame');
-    if(!o.data) o.data = 'doc.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH';
-  }
-  if(id==='appView'){
-    const f = document.getElementById('appFrame');
-    if(!f.src) f.src = 'app.html';
-  }
-  if(id==='hub'){
-    // Reset iframes al salir, para que vuelvan a pantalla 1 si reabren
-    setTimeout(()=>{
-      document.getElementById('appFrame').src = '';
-    }, 400);
-  }
 }
 
 // ============== PROTECCIONES ==============
