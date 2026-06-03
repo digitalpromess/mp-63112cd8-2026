@@ -296,6 +296,10 @@ function openView(id){
   document.getElementById(id).classList.add('active');
   window.scrollTo({top:0,behavior:'instant'});
   if(id==='pdfView'){ goToPage(1); }
+  if(id==='appView'){
+    const f = document.getElementById('appFrame');
+    if(!f.srcdoc){ f.srcdoc = atob(__APP_B64); }
+  }
 }
 // ============== PDF GALLERY NAV ==============
 const TOTAL_PAGES = 5;
